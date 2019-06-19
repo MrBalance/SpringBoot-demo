@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrbalance.dao.UsrTableDao">
+  <resultMap id="BaseResultMap" type="com.mrbalance.model.UsrTable">
+    <id column="usr_id" jdbcType="INTEGER" property="usrId" />
+    <result column="usr_account" jdbcType="VARCHAR" property="usrAccount" />
+    <result column="usr_name" jdbcType="VARCHAR" property="usrName" />
+    <result column="usr_password" jdbcType="VARCHAR" property="usrPassword" />
+    <result column="is_active" jdbcType="INTEGER" property="isActive" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    usr_id, usr_account, usr_name, usr_password, is_active
+  </sql>
+  <select id="selectByExample" parameterType="com.mrbalance.model.UsrTableExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from usr_table
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from usr_table
+    where usr_id = #{usrId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from usr_table
+    where usr_id = #{usrId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mrbalance.model.UsrTableExample">
+    delete from usr_table
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="usr_id" keyProperty="usrId" parameterType="com.mrbalance.model.UsrTable" useGeneratedKeys="true">
+    insert into usr_table (usr_account, usr_name, usr_password, 
+      is_active)
+    values (#{usrAccount,jdbcType=VARCHAR}, #{usrName,jdbcType=VARCHAR}, #{usrPassword,jdbcType=VARCHAR}, 
+      #{isActive,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="usr_id" keyProperty="usrId" parameterType="com.mrbalance.model.UsrTable" useGeneratedKeys="true">
+    insert into usr_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="usrAccount != null">
+        usr_account,
+      </if>
+      <if test="usrName != null">
+        usr_name,
+      </if>
+      <if test="usrPassword != null">
+        usr_password,
+      </if>
+      <if test="isActive != null">
+        is_active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="usrAccount != null">
+        #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="usrName != null">
+        #{usrName,jdbcType=VARCHAR},
+      </if>
+      <if test="usrPassword != null">
+        #{usrPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        #{isActive,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mrbalance.model.UsrTableExample" resultType="java.lang.Long">
+    select count(*) from usr_table
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update usr_table
+    <set>
+      <if test="record.usrId != null">
+        usr_id = #{record.usrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.usrAccount != null">
+        usr_account = #{record.usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrName != null">
+        usr_name = #{record.usrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usrPassword != null">
+        usr_password = #{record.usrPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isActive != null">
+        is_active = #{record.isActive,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update usr_table
+    set usr_id = #{record.usrId,jdbcType=INTEGER},
+      usr_account = #{record.usrAccount,jdbcType=VARCHAR},
+      usr_name = #{record.usrName,jdbcType=VARCHAR},
+      usr_password = #{record.usrPassword,jdbcType=VARCHAR},
+      is_active = #{record.isActive,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mrbalance.model.UsrTable">
+    update usr_table
+    <set>
+      <if test="usrAccount != null">
+        usr_account = #{usrAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="usrName != null">
+        usr_name = #{usrName,jdbcType=VARCHAR},
+      </if>
+      <if test="usrPassword != null">
+        usr_password = #{usrPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null">
+        is_active = #{isActive,jdbcType=INTEGER},
+      </if>
+    </set>
+    where usr_id = #{usrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mrbalance.model.UsrTable">
+    update usr_table
+    set usr_account = #{usrAccount,jdbcType=VARCHAR},
+      usr_name = #{usrName,jdbcType=VARCHAR},
+      usr_password = #{usrPassword,jdbcType=VARCHAR},
+      is_active = #{isActive,jdbcType=INTEGER}
+    where usr_id = #{usrId,jdbcType=INTEGER}
+  </update>
+</mapper>
